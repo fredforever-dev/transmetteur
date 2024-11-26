@@ -27,51 +27,41 @@ function startQrScanner() {
     qrReaderContainer.style.display = "block";
     qrResult.textContent = ""; // Réinitialise les résultats précédents
 
+    // Initialisation de la bibliothèque HTML5-Qrcode
     const html5QrCode = new Html5Qrcode("qr-reader");
 
     html5QrCode.start(
-        { facingMode: "environment" }, // Utilise la caméra arrière
+        { facingMode: "environment" }, // Caméra arrière
         {
             fps: 10, // Fréquence d'analyse (images par seconde)
-            qrbox: { width: 200, height: 200 }, // Zone de détection du QR code
+            qrbox: { width: 250, height: 250 }, // Zone de détection
         },
         (decodedText) => {
             console.log("QR Code détecté :", decodedText);
             qrResult.textContent = `Contenu détecté : ${decodedText}`;
 
-            try {
-                const qrData = JSON.parse(decodedText); // Parse le QR code en JSON
-                const serialNumber = qrData.serial_number;
-                const serverAddress = qrData.server_address;
-
-                if (serialNumber && serverAddress) {
-                    // Enregistre le numéro de série et l'adresse du serveur
-                    localStorage.setItem("serial_number", serialNumber);
-                    localStorage.setItem("server_address", serverAddress);
-
-                    alert(`Numéro de série enregistré : ${serialNumber}`);
-                    html5QrCode.stop().then(() => {
-                        displayButtons();
-                    });
-                } else {
-                    qrResult.textContent = "QR code invalide.";
-                }
-            } catch (error) {
-                qrResult.textContent = "Erreur : Le contenu n'est pas un JSON valide.";
-            }
+            // Arrêter automatiquement le scanner après la détection
+            html5QrCode.stop().then(() => {
+                qrReaderContainer.style.display = "none";
+            }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
         },
         (errorMessage) => {
             console.log("Erreur de détection :", errorMessage);
         }
-    );
+    ).catch((err) => {
+        console.error("Erreur lors du démarrage de la caméra :", err);
+        alert("Impossible d'accéder à la caméra.");
+    });
 
-    // Permet d'arrêter le scanner
+    // Gestion du bouton "Arrêter le scan"
     stopScanButton.addEventListener("click", () => {
         html5QrCode.stop().then(() => {
-            qrReaderContainer.style.display = "none"; // Cache le conteneur du scanner
+            qrReaderContainer.style.display = "none";
+            console.log("Scanner arrêté.");
         }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
     });
 }
+
 
 // Ajouter des actions aux boutons
 document.getElementById("settings-btn").addEventListener("click", startQrScanner);
