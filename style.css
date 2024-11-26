@@ -54,8 +54,6 @@ button:hover {
     justify-content: center; /* Centre verticalement */
     height: 100vh;           /* Utiliser toute la hauteur de la fenêtre */
     background-color: #FFF8DC; /* Couleur de fond pour contraster */
-    aspect-ratio: 1 / 1; /* Garantit un cadre carré */
-    overflow: hidden; /* Pour gérer le dépassement d'image */
 }
 
 /* Centrer la caméra elle-même */
@@ -65,7 +63,6 @@ button:hover {
     border: 2px solid #FFA500; /* Optionnel : bordure pour la caméra */
     background: #000; /* Optionnel : arrière-plan noir si pas d'image */
     margin-bottom: 20px; /* Espacement entre la caméra et le bouton */
-    
 }
 
 /* Style du bouton "Arrêter le scan" */
