@@ -34,7 +34,7 @@ function startQrScanner() {
         { facingMode: "environment" }, // Utilise la caméra arrière
         {
             fps: 10, // Fréquence d'analyse (images par seconde)
-            qrbox: { width: 250, height: 250 }, // Zone de détection du QR code
+            qrbox: { width: 200, height: 200 }, // Zone de détection du QR code
         },
         (decodedText) => {
             console.log("QR Code détecté :", decodedText);
