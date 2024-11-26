@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    background-color: #FFD700; /* Jaune foncé */
+    color: #333; /* Texte en gris foncé pour un bon contraste */
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #FFCC00; /* Légèrement plus clair que le fond */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#settings-btn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333; /* Même couleur que le texte */
+}
+
+#logo {
+    width: 150px;
+    margin: 20px auto;
+    display: block;
+}
+
+button {
+    margin: 10px;
+    padding: 15px 20px;
+    font-size: 16px;
+    background-color: #FFA500; /* Orange vif pour les boutons */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background-color: #FF8C00; /* Orange foncé au survol */
+}
+
+#qr-reader-container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #FFF8DC; /* Crème pour contraster avec le jaune */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#qr-result {
+    font-weight: bold;
+    margin-top: 15px;
+    color: #333; /* Texte bien lisible */
+}
+
+#buttons-container {
+    margin-top: 20px;
+}
