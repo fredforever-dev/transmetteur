@@ -58,8 +58,8 @@ button:hover {
 
 /* Centrer la caméra elle-même */
 #qr-reader {
-    width: 200px;   /* Ajuste la taille selon tes besoins */
-    height: 200px;  /* Idem */
+    width: 250px;   /* Ajuste la taille selon tes besoins */
+    height: 250px;  /* Idem */
     border: 2px solid #FFA500; /* Optionnel : bordure pour la caméra */
     background: #000; /* Optionnel : arrière-plan noir si pas d'image */
     margin-bottom: 20px; /* Espacement entre la caméra et le bouton */
