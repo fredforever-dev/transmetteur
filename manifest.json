@@ -1,6 +1,6 @@
 {
-    "name": "Bien",
-    "short_name": "Bien",
+    "name": "Transmetteur",
+    "short_name": "Transmetteur",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#f4f4f4",
