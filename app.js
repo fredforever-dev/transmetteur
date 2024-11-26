@@ -33,7 +33,7 @@ function startQrScanner() {
         { facingMode: "environment" }, // Caméra arrière
         {
             fps: 10, // Fréquence d’analyse (images par seconde)
-            qrbox: { width: 300, height: 300 }, // Zone de détection
+            qrbox: { width: 200, height: 200 }, // Zone de détection
         },
         (decodedText) => {
             qrResult.textContent = `Contenu détecté : ${decodedText}`;
