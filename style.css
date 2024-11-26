@@ -63,6 +63,7 @@ button:hover {
     border: 2px solid #FFA500; /* Optionnel : bordure pour la caméra */
     background: #000; /* Optionnel : arrière-plan noir si pas d'image */
     margin-bottom: 20px; /* Espacement entre la caméra et le bouton */
+    aspect-ratio: 1 / 1; /* Garantit un cadre carré */
 }
 
 /* Style du bouton "Arrêter le scan" */
