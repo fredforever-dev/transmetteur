@@ -31,27 +31,42 @@ function startQrScanner() {
     const html5QrCode = new Html5Qrcode("qr-reader");
 
     html5QrCode.start(
-        { facingMode: "environment" }, // Caméra arrière
+        { facingMode: "environment" }, // Utilise la caméra arrière
         {
             fps: 10, // Fréquence d'analyse (images par seconde)
-            qrbox: { width: 200, height: 200 }, // Zone de détection
+            qrbox: { width: 250, height: 250 }, // Zone de détection du QR code
         },
         (decodedText) => {
             console.log("QR Code détecté :", decodedText);
-            qrResult.textContent = `Contenu détecté : ${decodedText}`;
-
-            // Arrêter automatiquement le scanner après la détection
-            html5QrCode.stop().then(() => {
-                qrReaderContainer.style.display = "none";
-            }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
+    
+            try {
+                // Parse le contenu du QR code
+                const qrData = JSON.parse(decodedText);
+                const serialNumber = qrData.serial_number;
+    
+                if (serialNumber) {
+                    // Affiche une alerte avec le numéro de série
+                    alert(`Numéro de série détecté : ${serialNumber}`);
+    
+                    // Enregistre dans localStorage (optionnel)
+                    localStorage.setItem("serial_number", serialNumber);
+    
+                    // Arrête automatiquement le scanner après la détection
+                    html5QrCode.stop().then(() => {
+                        qrReaderContainer.style.display = "none"; // Cache l'interface du scanner
+                    }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
+                } else {
+                    alert("Le QR code ne contient pas de numéro de série valide.");
+                }
+            } catch (error) {
+                alert("Erreur : Le contenu du QR code n'est pas un JSON valide.");
+            }
         },
         (errorMessage) => {
             console.log("Erreur de détection :", errorMessage);
         }
-    ).catch((err) => {
-        console.error("Erreur lors du démarrage de la caméra :", err);
-        alert("Impossible d'accéder à la caméra.");
-    });
+    );
+    
 
     // Gestion du bouton "Arrêter le scan"
     stopScanButton.addEventListener("click", () => {
@@ -81,3 +96,4 @@ document.getElementById("send-files").addEventListener("click", () => {
 
 // Lancer la vérification au chargement
 window.addEventListener("load", checkSerialNumber);
+
