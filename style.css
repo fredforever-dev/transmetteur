@@ -58,13 +58,14 @@ button:hover {
 
 /* Centrer la caméra elle-même */
 #qr-reader {
-    width: 250px;   /* Ajuste la taille selon tes besoins */
-    height: 250px;  /* Idem */
+    width: 300px;   /* Ajuste la taille selon tes besoins */
+    height: 300px;  /* Idem */
     border: 2px solid #FFA500; /* Optionnel : bordure pour la caméra */
     background: #000; /* Optionnel : arrière-plan noir si pas d'image */
     margin-bottom: 20px; /* Espacement entre la caméra et le bouton */
     position: relative; /* Nécessaire pour le positionnement du viseur */
     background-color: black; /* Ajoute un fond noir si la caméra n'est pas chargée */
+    object-fit: cover; /* Coupe les parties débordantes pour maintenir un carré */
 }
 
 /* Style du bouton "Arrêter le scan" */

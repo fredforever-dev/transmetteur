@@ -33,32 +33,33 @@ function startQrScanner() {
         { facingMode: "environment" }, // Caméra arrière
         {
             fps: 10, // Fréquence d’analyse (images par seconde)
-            qrbox: { width: 200, height: 200 }, // Zone de détection
+            qrbox: { width: 250, height: 250 }, // Zone de détection
+            disableFlip: true // Désactive le retournement automatique (utile pour certains QR codes)
         },
         (decodedText) => {
-            //qrResult.textContent = `Contenu détecté : ${decodedText}`;
+            qrResult.textContent = `Contenu détecté : ${decodedText}`;
             console.log("QR Code détecté :", decodedText);
 
-            // try {
-            //     const qrData = JSON.parse(decodedText);
-            //     const serialNumber = qrData.serial_number;
-            //     const serverAddress = qrData.server_address;
+            try {
+                const qrData = JSON.parse(decodedText);
+                const serialNumber = qrData.serial_number;
+                const serverAddress = qrData.server_address;
 
-            //     if (serialNumber && serverAddress) {
-            //         // Enregistrer le numéro de série et l'adresse du serveur
-            //         localStorage.setItem("serial_number", serialNumber);
-            //         localStorage.setItem("server_address", serverAddress);
+                if (serialNumber && serverAddress) {
+                    // Enregistrer le numéro de série et l'adresse du serveur
+                    localStorage.setItem("serial_number", serialNumber);
+                    localStorage.setItem("server_address", serverAddress);
 
-            //         alert(`Numéro de série enregistré : ${serialNumber}`);
-            //         html5QrCode.stop().then(() => {
-            //             displayButtons();
-            //         });
-            //     } else {
-            //         qrResult.textContent = "QR code invalide.";
-            //     }
-            // } catch (error) {
-            //     qrResult.textContent = "Erreur : Le contenu n’est pas un JSON valide.";
-            // }
+                    alert(`Numéro de série enregistré : ${serialNumber}`);
+                    html5QrCode.stop().then(() => {
+                        displayButtons();
+                    });
+                } else {
+                    qrResult.textContent = "QR code invalide.";
+                }
+            } catch (error) {
+                qrResult.textContent = "Erreur : Le contenu n’est pas un JSON valide.";
+            }
         },
         (errorMessage) => {
             console.log("Erreur de détection :", errorMessage);
