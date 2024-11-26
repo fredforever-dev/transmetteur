@@ -33,7 +33,7 @@ function startQrScanner() {
         { facingMode: "environment" }, // Caméra arrière
         {
             fps: 10, // Fréquence d’analyse (images par seconde)
-            qrbox: { width: 250, height: 250 }, // Zone de détection
+            qrbox: 250, // Zone de détection
             disableFlip: true // Désactive le retournement automatique (utile pour certains QR codes)
         },
         (decodedText) => {
