@@ -4,7 +4,7 @@ const qrResult = document.getElementById("qr-result");
 const stopScanButton = document.getElementById("stop-scan");
 const buttonsContainer = document.getElementById("buttons-container");
 
-// Fonction pour vérifier la présence d'un numéro de série
+// Vérifier si le numéro de série est déjà enregistré
 function checkSerialNumber() {
     const serialNumber = localStorage.getItem("serial_number");
     if (serialNumber) {
@@ -12,71 +12,66 @@ function checkSerialNumber() {
         displayButtons();
     } else {
         console.log("Aucun numéro de série trouvé. Lancement du scan...");
-        startQrScanner(); // Lance le scan si le numéro de série est absent
+        startQrScanner();
     }
 }
 
-// Fonction pour afficher les boutons principaux
+// Afficher les boutons principaux
 function displayButtons() {
     buttonsContainer.style.display = "block";
     qrReaderContainer.style.display = "none";
 }
 
-// Fonction pour démarrer le scanner QR code
+// Démarrer le scanner QR code
 function startQrScanner() {
     qrReaderContainer.style.display = "block";
-    qrResult.textContent = ""; // Réinitialise les résultats précédents
+    qrResult.textContent = ""; // Réinitialise les résultats
 
-    // Initialisation de la bibliothèque HTML5-Qrcode
-    const html5QrCode = new Html5Qrcode("qr-reader");
+    const html5QrCode = new Html5Qrcode("qr-reader", { verbose: true });
 
     html5QrCode.start(
-        { facingMode: "environment" }, // Utilise la caméra arrière
+        { facingMode: "environment" }, // Caméra arrière
         {
-            fps: 10, // Fréquence d'analyse (images par seconde)
-            qrbox: { width: 200, height: 200 }, // Zone de détection du QR code
+            fps: 10, // Fréquence d’analyse (images par seconde)
+            qrbox: { width: 300, height: 300 }, // Zone de détection
         },
         (decodedText) => {
+            qrResult.textContent = `Contenu détecté : ${decodedText}`;
             console.log("QR Code détecté :", decodedText);
-    
+
             try {
-                // Parse le contenu du QR code
                 const qrData = JSON.parse(decodedText);
                 const serialNumber = qrData.serial_number;
-    
-                if (serialNumber) {
-                    // Affiche une alerte avec le numéro de série
-                    alert(`Numéro de série détecté : ${serialNumber}`);
-    
-                    // Enregistre dans localStorage (optionnel)
+                const serverAddress = qrData.server_address;
+
+                if (serialNumber && serverAddress) {
+                    // Enregistrer le numéro de série et l'adresse du serveur
                     localStorage.setItem("serial_number", serialNumber);
-    
-                    // Arrête automatiquement le scanner après la détection
+                    localStorage.setItem("server_address", serverAddress);
+
+                    alert(`Numéro de série enregistré : ${serialNumber}`);
                     html5QrCode.stop().then(() => {
-                        qrReaderContainer.style.display = "none"; // Cache l'interface du scanner
-                    }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
+                        displayButtons();
+                    });
                 } else {
-                    alert("Le QR code ne contient pas de numéro de série valide.");
+                    qrResult.textContent = "QR code invalide.";
                 }
             } catch (error) {
-                alert("Erreur : Le contenu du QR code n'est pas un JSON valide.");
+                qrResult.textContent = "Erreur : Le contenu n’est pas un JSON valide.";
             }
         },
         (errorMessage) => {
             console.log("Erreur de détection :", errorMessage);
         }
     );
-    
 
-    // Gestion du bouton "Arrêter le scan"
+    // Arrêter le scanner
     stopScanButton.addEventListener("click", () => {
         html5QrCode.stop().then(() => {
             qrReaderContainer.style.display = "none";
-            console.log("Scanner arrêté.");
         }).catch(err => console.error("Erreur lors de l'arrêt du scanner :", err));
     });
 }
-
 
 // Ajouter des actions aux boutons
 document.getElementById("settings-btn").addEventListener("click", startQrScanner);
@@ -96,4 +91,3 @@ document.getElementById("send-files").addEventListener("click", () => {
 
 // Lancer la vérification au chargement
 window.addEventListener("load", checkSerialNumber);
-
